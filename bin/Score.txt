@@ -1,0 +1,5 @@
+1 paul 700
+2 Chris 400
+3 Max 300
+4 Bob 200
+5 Smith 100
