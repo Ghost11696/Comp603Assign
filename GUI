@@ -1,0 +1,50 @@
+package Game;
+
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+//import javax.swing.JPanel;
+
+
+public class GUI {
+    //public static JPanel panel;
+    public static JFrame frame;
+    public static JButton[][] emptyButton;
+    public static JButton missButton;
+    public static JButton hitButton;
+    public static JButton shipButton;
+    public static Game game;
+
+
+    public void displayGrid(int length, int width) {
+        frame = new JFrame("BattleShips");
+        frame.setLayout(new GridLayout(length, width));
+        emptyButton = new JButton[length][width];
+        //panel = new JPanel();
+
+        for (int x = 0; x < length; x++) {
+            for (int y = 0; y < width; y++) {
+                emptyButton[x][y] = new JButton();
+                frame.add(emptyButton[x][y]);
+            }
+        }
+        //frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600,600);
+        frame.setVisible(true);
+    }
+
+    public void displayHit() {
+        hitButton = new JButton("X");
+    }
+
+    public void displayMiss() {
+        hitButton = new JButton("#");
+    }
+
+    public void displayShip() {
+        hitButton = new JButton("O");
+        game.autoDeployCurrentShip();
+
+    }
+}
