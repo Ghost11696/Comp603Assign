@@ -1,4 +1,5 @@
-package Game;
+package Model;
+
 /**
  * Submarine class. A "Submarine" occupies three grid squares.
  */

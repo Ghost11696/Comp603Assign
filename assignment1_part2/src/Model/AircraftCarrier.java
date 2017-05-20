@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * AircraftCarrier class. An "Aircraft Carrier" is the biggest

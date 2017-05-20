@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * PatrolBoat class. A "Patrol Boat" is the smallest ship in the game 

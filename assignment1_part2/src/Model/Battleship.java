@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * Battleship class. A "Battleship" is a ship that occupies four 

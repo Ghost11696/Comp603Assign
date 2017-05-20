@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * Ship class. Note - this class is abstract. Contains the fields and methods 
@@ -7,8 +7,7 @@ package Game;
  * it has been sunk or not.
  */
 public abstract class Ship {
-    
-	//Constants to represent the two possible orientations 
+    /* Constants to represent the two possible orientations - DO NOT CHANGE. */
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
 
@@ -17,13 +16,13 @@ public abstract class Ship {
      * specified by the respective parameters, and also initialises the ship 
      * so that it has not received any hits.
      */
-    private String shipName;
-    private int shipLength, hits;
+    String shipName;
+    int shipLength, hits;
     
     public Ship(String name, int length) {
         shipName = name;
         shipLength = length;
-   
+        int hits = 0;
     }
     
     /** @return The name of this ship. */

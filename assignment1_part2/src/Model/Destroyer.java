@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * Destroyer class. A "Destroyer" is a ship that occupies three grid squares.
