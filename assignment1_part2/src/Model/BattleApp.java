@@ -5,9 +5,7 @@
  */
 package Model;
 
-
 import View.UIBattleApp;
-
 
 /**
  *
@@ -19,8 +17,8 @@ public class BattleApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         final UIBattleApp startUI = new UIBattleApp();
     }
-    
+
 }

@@ -75,8 +75,6 @@ public class PlayerDisplay implements PlayerDisplayListener {
         this.myListener = newListener;
     }
 
-
-
     // Public methods
     public void drawCell(int x, int y, Color drawColour) {
         allButtons[x][y].setBackground(drawColour);
@@ -85,6 +83,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
     @Override
     public void onGridClicked(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
+            return;
         } else {
             myListener.onGridClicked(playerDisplay, e, x, y);
         }
@@ -93,6 +92,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
     @Override
     public void onGridEntered(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
+            return;
         } else {
             myListener.onGridEntered(playerDisplay, e, x, y);
         }
@@ -101,6 +101,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
     @Override
     public void onGridExited(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
+            return;
         } else {
             myListener.onGridExited(playerDisplay, e, x, y);
         }

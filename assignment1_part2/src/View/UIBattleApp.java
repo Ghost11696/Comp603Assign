@@ -30,10 +30,6 @@ public class UIBattleApp {
     public static final String WINDOW_TITLE = "BattleApp";
     
     
-// Public static fields
-    public static boolean isCheating = false;
-
-    
     public UIBattleApp(){
      StartWindow sw = new StartWindow(this);
     }
