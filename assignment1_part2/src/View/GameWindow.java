@@ -30,26 +30,27 @@ public class GameWindow extends JFrame {
     private DeploymentHandler myDeployer;
     private Game myGame;
     private boolean isComplete = false;
-    private Game game;
     private UIBattleApp uibattleApp;
 
     public GameWindow(UIBattleApp uibattleApp) {
         this.uibattleApp = uibattleApp;
-        game = new Game(uibattleApp.playerName, "computer");
+        myGame = new Game(uibattleApp.playerName, "computer");
         constructGUI();
+        startGUI();
     }
 
     private void constructGUI() {
 
         final GameWindow gameWindow = this;
-        myAttackPhaseHandler = new AttackPhaseHandler(gameWindow);
-        myDeployer = new DeploymentHandler(gameWindow);
+
+        
         JPanel displayGridsPanel = new JPanel();
         PlayerDisplay humanDisplay, computerDisplay;
         allPlayerDisplays = new PlayerDisplay[2];
-        allPlayerDisplays[HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, game.getPlayer1());
-        allPlayerDisplays[COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, game.getPlayer2());
+        allPlayerDisplays[HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, myGame.getPlayer1());
+        allPlayerDisplays[COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, myGame.getPlayer2());
 
+        
         displayGridsPanel.setLayout(new GridLayout(1, 2));
         displayGridsPanel.add(humanDisplay.getComponent());
         displayGridsPanel.add(computerDisplay.getComponent());
@@ -57,10 +58,15 @@ public class GameWindow extends JFrame {
         JPanel buttonsPanel = new JPanel();
         JButton bnAutoDeploy, bnAutoTarget, bnQuit;
 
+        myDeployer = new DeploymentHandler(gameWindow);
+
+        myAttackPhaseHandler = new AttackPhaseHandler(gameWindow);
         buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.add(bnAutoDeploy = myDeployer.bnAutoDeploy = new JButton("Auto-deploy"));
+        bnAutoDeploy.setEnabled(true);
         buttonsPanel.add(bnAutoTarget = myAttackPhaseHandler.bnAutoTarget = new JButton("Auto-target"));
         buttonsPanel.add(bnQuit = new JButton("Quit"));
+
 
         bnAutoDeploy.setEnabled(false);
         bnAutoTarget.setEnabled(false);
@@ -95,6 +101,7 @@ public class GameWindow extends JFrame {
         form.setLocationRelativeTo(null);
         form.setVisible(true);
 
+
     }
 
     public void onDeployComplete(DeploymentHandler handler) {
@@ -114,10 +121,10 @@ public class GameWindow extends JFrame {
 
     public Player otherPlayer(Player player) {
         Player otherPlayerTest;
-        if ((otherPlayerTest = game.getPlayer1()) != player) {
+        if ((otherPlayerTest = myGame.getPlayer1()) != player) {
             return otherPlayerTest;
         }
-        return game.getPlayer2();
+        return myGame.getPlayer2();
     }
 
     public void startGUI() {
@@ -136,15 +143,15 @@ public class GameWindow extends JFrame {
     }
 
     public PlayerDisplay getComputerDisplay() {
-        return this.allPlayerDisplays[GameWindow.COMPUTER_INDEX];
+        return allPlayerDisplays[GameWindow.COMPUTER_INDEX];
     }
 
     public Player getComputerPlayer() {
-        return this.myGame.getPlayer2();
+        return myGame.getPlayer2();
     }
 
     public Color getDefaultBackgroundColour() {
-        return this.form.getBackground();
+        return form.getBackground();
     }
 
     public PlayerDisplay getDisplayFor(Player player) {
@@ -160,11 +167,11 @@ public class GameWindow extends JFrame {
     }
 
     public Player getHumanPlayer() {
-        return game.getPlayer1();
+        return myGame.getPlayer1();
     }
 
     public Game getGame() {
-        return game;
+        return myGame;
     }
 
     public UIBattleApp getUI() {

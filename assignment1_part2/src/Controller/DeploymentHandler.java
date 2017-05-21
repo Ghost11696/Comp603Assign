@@ -82,7 +82,7 @@ public class DeploymentHandler implements PlayerDisplayListener {
 
     @Override
     public void onGridEntered(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
-        setDeploymentPosition(x, y);
+        onAutoDeploy();
         redraw();
     }
 
@@ -133,18 +133,11 @@ public class DeploymentHandler implements PlayerDisplayListener {
     }
 
     private void deployComputerShips() {
-        Player computerPlayer = this.myGameWindow.getComputerPlayer();
+        Player computerPlayer = myGameWindow.getComputerPlayer();
         for (Ship ship : computerPlayer.getShips()) {
             computerPlayer.getGrid().autoDeploy(ship);
         }
-        this.myGameWindow.getComputerDisplay().status("The computer has deployed its ships.");
-    }
-
-    private void deployCurrentShip() {
-        myGameWindow.getHumanPlayer().getGrid().deploy(getCurrentShip(), currentX, currentY, currentOrientation);
-        ++nextShipIndex;
-        revalidateCurrentPosition();
-        displayCurrentStatus();
+        myGameWindow.getComputerDisplay().status("The computer has deployed its ships.");
     }
 
     private void displayCurrentStatus() {

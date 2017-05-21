@@ -82,6 +82,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
         allButtons[x][y].setBackground(drawColour);
     }
 
+    @Override
     public void onGridClicked(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
         } else {
@@ -89,6 +90,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
         }
     }
 
+    @Override
     public void onGridEntered(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
         } else {
@@ -96,6 +98,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
         }
     }
 
+    @Override
     public void onGridExited(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
         if (myListener == null || !isEnabled) {
         } else {
