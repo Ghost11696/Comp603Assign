@@ -5,7 +5,8 @@
  */
 package Model;
 
-import View.GameWindow;
+
+import View.UIBattleApp;
 
 
 /**
@@ -19,7 +20,7 @@ public class BattleApp {
      */
     public static void main(String[] args) {
         
-        final GameWindow startUI = new GameWindow();
+        final UIBattleApp startUI = new UIBattleApp();
     }
     
 }

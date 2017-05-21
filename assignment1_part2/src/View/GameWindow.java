@@ -5,152 +5,173 @@
  */
 package View;
 
+import Controller.*;
 import Model.Game;
-import java.awt.BorderLayout;
+import Model.Player;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 
 /**
  *
  * @author James-dt
  */
-public class GameWindow extends JFrame{
-    
+public class GameWindow extends JFrame {
+
+    // Public static constants
+    public static final int COMPUTER_INDEX = 1;
+    public static final int HUMAN_INDEX = 0;
+
+    // Private fields
+    private PlayerDisplay[] allPlayerDisplays;
+    private JFrame form;
+    private AttackPhaseHandler myAttackPhaseHandler;
+    private DeploymentHandler myDeployer;
+    private Game myGame;
+    private boolean isComplete = false;
     private Game game;
-    private JPanel playerDisplay;
-    private JFrame jframe;
-    private String playerName;
+    private UIBattleApp uibattleApp;
 
-    public GameWindow() {
-        new StartGUI();
-        game = new Game(playerName, "computer");
-        jframe = new JFrame("BattleApp");
-        playerDisplay = new PlayerDisplay(jframe, game);
-        
-        
-                    
-     final GameWindow gameWindow = this;
+    public GameWindow(UIBattleApp uibattleApp) {
+        this.uibattleApp = uibattleApp;
+        game = new Game(uibattleApp.playerName, "computer");
+        constructGUI();
+    }
 
-            JPanel displayGridsPanel = new JPanel();
-            {
-                PlayerDisplay humanDisplay, computerDisplay;
-                this.allPlayerDisplays = new PlayerDisplay[2];
+    private void constructGUI() {
 
-                this.allPlayerDisplays[GameWindow.HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, this.getHumanPlayer());
-                this.allPlayerDisplays[GameWindow.COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, this.getComputerPlayer());
+        final GameWindow gameWindow = this;
+        myAttackPhaseHandler = new AttackPhaseHandler(gameWindow);
+        myDeployer = new DeploymentHandler(gameWindow);
+        JPanel displayGridsPanel = new JPanel();
+        PlayerDisplay humanDisplay, computerDisplay;
+        allPlayerDisplays = new PlayerDisplay[2];
+        allPlayerDisplays[HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, game.getPlayer1());
+        allPlayerDisplays[COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, game.getPlayer2());
 
-                displayGridsPanel.setLayout(new GridLayout(1, 2));
-                displayGridsPanel.add(humanDisplay.getComponent());
-                displayGridsPanel.add(computerDisplay.getComponent());
+        displayGridsPanel.setLayout(new GridLayout(1, 2));
+        displayGridsPanel.add(humanDisplay.getComponent());
+        displayGridsPanel.add(computerDisplay.getComponent());
 
-                humanDisplay.setListener(this.myDeployer);
-                computerDisplay.setListener(this.myAttackPhaseHandler);
+        JPanel buttonsPanel = new JPanel();
+        JButton bnAutoDeploy, bnAutoTarget, bnQuit;
+
+        buttonsPanel.setLayout(new FlowLayout());
+        buttonsPanel.add(bnAutoDeploy = myDeployer.bnAutoDeploy = new JButton("Auto-deploy"));
+        buttonsPanel.add(bnAutoTarget = myAttackPhaseHandler.bnAutoTarget = new JButton("Auto-target"));
+        buttonsPanel.add(bnQuit = new JButton("Quit"));
+
+        bnAutoDeploy.setEnabled(false);
+        bnAutoTarget.setEnabled(false);
+
+        bnAutoDeploy.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                gameWindow.myDeployer.onAutoDeploy();
             }
+        });
 
-            JPanel buttonsPanel = new JPanel();
-            {
-                JButton bnAutoDeploy, bnAutoTarget, bnQuit, bnRotateShip;
-
-                buttonsPanel.setLayout(new FlowLayout());
-                buttonsPanel.add(bnAutoDeploy = gameWindow.myDeployer.bnAutoDeploy = new JButton("Auto-deploy"));
-                buttonsPanel.add(bnAutoTarget = gameWindow.myAttackPhaseHandler.bnAutoTarget = new JButton("Auto-target"));
-                buttonsPanel.add(bnQuit = new JButton("Quit"));
-
-                bnAutoDeploy.setEnabled(false);
-                bnAutoTarget.setEnabled(false);
-
-                bnAutoDeploy.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) { gameWindow.myDeployer.onAutoDeploy(); }
-                });
-
-                bnAutoTarget.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) { gameWindow.myAttackPhaseHandler.onAutoTarget(); }
-                });
-
-                bnQuit.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) { gameWindow.onQuit(); }
-                });
-
+        bnAutoTarget.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                gameWindow.myAttackPhaseHandler.onAutoTarget();
             }
+        });
 
-            JFrame form = this.form = new JFrame(UI.WINDOW_TITLE);
-            {
-                form.setLayout(new BorderLayout());
-                form.add(displayGridsPanel, BorderLayout.CENTER);
-                form.add(buttonsPanel, BorderLayout.SOUTH);
+        bnQuit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                gameWindow.onQuit();
             }
+        });
 
-            form.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-            form.pack();
-            form.setResizable(false);
-			form.setLocationRelativeTo(null);
-            form.setVisible(true);
+        form = new JFrame("BattleApp");
+
+        form.setLayout(new BorderLayout());
+        form.add(displayGridsPanel, BorderLayout.CENTER);
+        form.add(buttonsPanel, BorderLayout.SOUTH);
+
+        form.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        form.pack();
+        form.setResizable(false);
+        form.setLocationRelativeTo(null);
+        form.setVisible(true);
+
+    }
+
+    public void onDeployComplete(DeploymentHandler handler) {
+        myAttackPhaseHandler.startGUI();
+    }
+
+    public void onQuit() {
+        form.dispose();
+    }
+
+    public void onWon(Player winningPlayer) {
+        isComplete = true;
+        // open database and save score
+        form.dispose();
+
+    }
+
+    public Player otherPlayer(Player player) {
+        Player otherPlayerTest;
+        if ((otherPlayerTest = game.getPlayer1()) != player) {
+            return otherPlayerTest;
+        }
+        return game.getPlayer2();
+    }
+
+    public void startGUI() {
+        for (PlayerDisplay playerDisplay : allPlayerDisplays) {
+            playerDisplay.status(playerDisplay.getPlayer().getName());
         }
 
-    private class StartGUI implements ActionListener{
+        myDeployer.startGUI();
+    }
 
-        private JFrame form;
-        private JTextField tbName;
-
-        public StartGUI() {
-
-            JPanel namePanel = new JPanel();
-            form = new JFrame("BattleApp");
-
-            namePanel.setLayout(
-                    new BorderLayout());
-            namePanel.add(
-                    new JLabel("Please enter your name: "), BorderLayout.WEST);
-            namePanel.add(
-                    this.tbName = new JTextField(30), BorderLayout.CENTER);
-
-            JPanel bottomPanel = new JPanel();
-
-            JButton bnOK;
-
-            bottomPanel.setLayout(
-                    new BorderLayout());
-            bottomPanel.add(bnOK
-                    = new JButton("OK"), BorderLayout.EAST);
-
-            bnOK.addActionListener(
-                    this);
-
-            JPanel mainPanel = new JPanel();
-
-            mainPanel.setBorder(
-                    new EmptyBorder(UI.BORDER_WIDTH, UI.BORDER_WIDTH, UI.BORDER_WIDTH, UI.BORDER_WIDTH));
-            mainPanel.setLayout(
-                    new BorderLayout());
-            mainPanel.add(namePanel, BorderLayout.CENTER);
-
-            mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-            form.add(mainPanel);
-
-            form.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-            form.pack();
-
-            form.setResizable(
-                    false);
-            form.setLocationRelativeTo(
-                    null);
-            form.setVisible(
-                    true);
+    public void redraw() {
+        for (PlayerDisplay playerDisplay : allPlayerDisplays) {
+            playerDisplay.redraw();
         }
+        myDeployer.drawOverlay();
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            playerName = tbName.getText();
-            form.dispose();
-        }
+    public PlayerDisplay getComputerDisplay() {
+        return this.allPlayerDisplays[GameWindow.COMPUTER_INDEX];
+    }
 
-    }      
+    public Player getComputerPlayer() {
+        return this.myGame.getPlayer2();
+    }
+
+    public Color getDefaultBackgroundColour() {
+        return this.form.getBackground();
+    }
+
+    public PlayerDisplay getDisplayFor(Player player) {
+        return (this.allPlayerDisplays[0].getPlayer() == player) ? this.allPlayerDisplays[0] : this.allPlayerDisplays[1];
+    }
+
+    public PlayerDisplay getEnemyDisplayFor(Player player) {
+        return (this.allPlayerDisplays[0].getPlayer() == player) ? this.allPlayerDisplays[1] : this.allPlayerDisplays[0];
+    }
+
+    public PlayerDisplay getHumanDisplay() {
+        return this.allPlayerDisplays[GameWindow.HUMAN_INDEX];
+    }
+
+    public Player getHumanPlayer() {
+        return game.getPlayer1();
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public UIBattleApp getUI() {
+        return uibattleApp;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
 }

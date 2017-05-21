@@ -66,10 +66,6 @@ public class Cell {
             state = Cell.DISPLAY_MISS;
         }
         
-        if((occupied && !attacked) && ((UI.isCheating == true) || (owningPlayer == viewingPlayer))) {
-            state = Cell.DISPLAY_OCCUPIED;
-        }
-        
         return state;
     }
 
