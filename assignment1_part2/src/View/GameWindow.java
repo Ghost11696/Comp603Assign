@@ -148,7 +148,9 @@ public class GameWindow extends JFrame {
 
     public void onWon(Player winningPlayer) {
         isComplete = true;
-
+        if (!winningPlayer.isComputer()) {
+            myGame.startConnection();
+        }
         form.dispose();
 
     }

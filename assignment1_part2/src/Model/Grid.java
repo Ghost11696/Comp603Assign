@@ -52,7 +52,7 @@ public class Grid {
         Cell tempCell = getCell((int)(Math.random()*10), (int)(Math.random()*10));
         
         while(!owningPlayer.isDefeated()) {
-            if(!tempCell.attacked) {
+            if(!tempCell.wasAttacked()) {
                 validCell = tempCell; break;
             }
             else {
@@ -170,7 +170,7 @@ public class Grid {
                 valid = false; break;                               
             }
             
-            if(getCell(x,y).occupied) {
+            if(getCell(x,y).isOccupied()) {
                 valid = false;                                      
             }
             

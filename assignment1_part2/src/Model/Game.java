@@ -14,8 +14,9 @@ public class Game {
      * @param player1Name The name of player 1.
      * @param player2Name The name of player 2.
      */   
-    Player player1, player2;
-    int turn;
+    private Player player1, player2;
+    private int turn;
+    private HighScore highscore;
     
     public Game(String player1Name, String player2Name) {
         player1 = new Player(player1Name);
@@ -79,4 +80,17 @@ public class Game {
         
         return whoseTurn;
     }
-} 
+
+    /**
+     * opens the highscore database
+     * adds the players name and score to the database
+     * then closes the database
+     */
+    public void startConnection() {
+        highscore = new HighScore();
+        int playerOneScore = (player1.getScore() - player2.getScore());
+        String playerOneName = player1.getName();
+        highscore.addHighScoreValues(playerOneName, playerOneScore);
+        highscore.closeConn();
+    }
+}

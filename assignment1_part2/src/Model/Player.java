@@ -17,9 +17,10 @@ public class Player {
      *
      * @param name The name to be used for this player.
      */
-    String playerName;
-    Ship[] ships;
-    Grid grid;
+    private String playerName;
+    private Ship[] ships;
+    private Grid grid;
+    private int playerScore = 0;
     
     public Player(String name) {
         playerName = name;
@@ -53,12 +54,39 @@ public class Player {
     public boolean isDefeated() {
         boolean defeated = true;
         
-        for(int i = 0; i <= ships.length-1; i++) {
-            if(!ships[i].isSunk()) {
+        for (int i = 0; i <= ships.length - 1; i++) {
+            if (!ships[i].isSunk()) {
                 defeated = false;   //Sets defeated as false if the ship at element "i" of the array is not sunk.
             }
         }
-        
+
         return defeated;
     }
+
+    /**
+     * adds a score to the players
+     *
+     * @param i can be 10 or 100 depending if ship has been hit or sunk
+     */
+    public void effectScore(int i) {
+        playerScore += i;
+    }
+
+    /**
+     * gets the players score
+     * @return the players score
+     */
+    public int getScore() {
+        return playerScore;
+    }
+    
+    /**
+     * @return returns true if player is Ai
+     */
+    public boolean isComputer(){
+        return playerName.equals("Computer");
+    }
+    
+    
+
 }

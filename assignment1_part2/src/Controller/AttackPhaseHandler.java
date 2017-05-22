@@ -34,22 +34,22 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
 
     // Public methods
     public void computerTakeTurn() {
-        Player computerPlayer = this.myGameWindow.getComputerPlayer();
-        Cell computerTarget = this.myGameWindow.otherPlayer(computerPlayer).getGrid().autoTargetMe();
-        this.tryTakeTurn(this.myGameWindow.getComputerPlayer(), computerTarget.getX(), computerTarget.getY());
+        Player computerPlayer = myGameWindow.getComputerPlayer();
+        Cell computerTarget = myGameWindow.otherPlayer(computerPlayer).getGrid().autoTargetMe();
+        tryTakeTurn(myGameWindow.getComputerPlayer(), computerTarget.getX(), computerTarget.getY());
     }
 
     public void clearHumanTurnDisplayTask() {
-        if (this.myHumanTurnDisplayTask == null) {
+        if (myHumanTurnDisplayTask == null) {
             return;
         }
-        this.myHumanTurnDisplayTask.cancel();
-        this.myHumanTurnDisplayTask = null;
+        myHumanTurnDisplayTask.cancel();
+        myHumanTurnDisplayTask = null;
     }
 
     public void onAutoTarget() {
         Cell humanTarget = this.myGameWindow.getComputerPlayer().getGrid().autoTargetMe();
-        this.humanTakeTurn(humanTarget.getX(), humanTarget.getY());
+        humanTakeTurn(humanTarget.getX(), humanTarget.getY());
     }
 
     public void onGridClicked(PlayerDisplay playerDisplay, MouseEvent e, int x, int y) {
@@ -63,11 +63,11 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
     }
 
     public void startGUI() {
-        this.bnAutoTarget.setEnabled(true);
-        this.myGameWindow.getHumanDisplay().setEnabled(false);
-        this.myGameWindow.getComputerDisplay().setEnabled(true);
-        this.myGameWindow.redraw();
-        this.startCurrentTurn();
+        bnAutoTarget.setEnabled(true);
+        myGameWindow.getHumanDisplay().setEnabled(false);
+        myGameWindow.getComputerDisplay().setEnabled(true);
+        myGameWindow.redraw();
+        startCurrentTurn();
     }
 
     // Private methods
@@ -85,7 +85,7 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
     }
 
     private void displayTurnResult(Player attackingPlayer, int attackResult) {
-        PlayerDisplay playerDisplay = this.myGameWindow.getEnemyDisplayFor(attackingPlayer);
+        PlayerDisplay playerDisplay = myGameWindow.getEnemyDisplayFor(attackingPlayer);
         if (attackResult == Cell.ATTACK_ALREADY) {
             playerDisplay.status(attackingPlayer.getName() + ", you have already attacked there.");
         } else {
@@ -95,12 +95,12 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
     }
 
     private void humanTakeTurn(int targetX, int targetY) {
-        Player humanPlayer = this.myGameWindow.getHumanPlayer();
-        boolean wasSuccessful = this.tryTakeTurn(humanPlayer, targetX, targetY);
+        Player humanPlayer = myGameWindow.getHumanPlayer();
+        boolean wasSuccessful = tryTakeTurn(humanPlayer, targetX, targetY);
         if (wasSuccessful) {
-            this.clearHumanTurnDisplayTask();
+            clearHumanTurnDisplayTask();
         } else {
-            this.myGameWindow.getEnemyDisplayFor(humanPlayer).status(humanPlayer.getName() + ", it is not your turn.");
+            myGameWindow.getEnemyDisplayFor(humanPlayer).status(humanPlayer.getName() + ", it is not your turn.");
         }
     }
 
@@ -118,16 +118,16 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
     }
 
     private void onWon(Player winner) {
-        this.myGameWindow.onWon(winner);
+        myGameWindow.onWon(winner);
     }
 
     private void setHumanTurnDisplayTask() {
-        this.clearHumanTurnDisplayTask();
+        clearHumanTurnDisplayTask();
     }
 
     private void startComputerTurn() {
-        Player computerPlayer = this.myGameWindow.getComputerPlayer();
-        this.myGameWindow.getEnemyDisplayFor(computerPlayer).status(computerPlayer.getName() + " is thinking...");
+        Player computerPlayer = myGameWindow.getComputerPlayer();
+        myGameWindow.getEnemyDisplayFor(computerPlayer).status(computerPlayer.getName() + " is thinking...");
 
         final AttackPhaseHandler attackPhaseHandler = this;
          attackPhaseHandler.computerTakeTurn();
@@ -138,34 +138,48 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
         if (turnPlayer == this.myGameWindow.getHumanPlayer()) {
             this.startHumanTurn();
         } else {
-            this.startComputerTurn();
+            startComputerTurn();
         }
     }
 
     private void startHumanTurn() {
-        this.setHumanTurnDisplayTask();
+        setHumanTurnDisplayTask();
     }
 
     private void startNextTurn() {
-        Player winner = this.myGameWindow.getGame().whoWon();
+        Player winner = myGameWindow.getGame().whoWon();
         if (winner != null) {
             this.onWon(winner);
         } else {
-            this.myGameWindow.getGame().nextTurn();
-            this.startCurrentTurn();
+            myGameWindow.getGame().nextTurn();
+            startCurrentTurn();
         }
     }
 
     private boolean tryTakeTurn(Player attackingPlayer, int x, int y) {
-        if (this.myGameWindow.getGame().whoseTurn() != attackingPlayer) {
+        if (myGameWindow.getGame().whoseTurn() != attackingPlayer) {
             return false;
         }
-        Player attackedPlayer = this.myGameWindow.otherPlayer(attackingPlayer);
+        Player attackedPlayer = myGameWindow.otherPlayer(attackingPlayer);
         int result = attackedPlayer.getGrid().getCell(x, y).tryAttack();
-        this.displayTurnResult(attackingPlayer, result);
+        changePlayerScore(attackingPlayer, result);
+        displayTurnResult(attackingPlayer, result);
         if (result != Cell.ATTACK_ALREADY) {
-            this.startNextTurn();
+            startNextTurn();
         }
         return true;
+    }
+
+    private void changePlayerScore(Player attackingPlayer, int result) {
+                
+            switch (result){
+                case Cell.ATTACK_HIT:
+                    attackingPlayer.effectScore(10);
+                    break;
+                case Cell.ATTACK_SUNK:
+                    attackingPlayer.effectScore(100);
+                    break;
+                default: attackingPlayer.effectScore(0);
+            }
     }
 }

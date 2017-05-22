@@ -1,7 +1,5 @@
 package Model;
 
-import View.*;
-
 /**
  * Cell class. A Cell is one element in a Grid. A Cell knows which Ship
  * is occupying it. Cell is responsible for handling attacks.
@@ -28,10 +26,10 @@ public class Cell {
      * @param x The x-coordinate for this cell. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
      * @param y The y-coordinate for this cell. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
      */
-    Player owningPlayer;
-    int x, y;
-    boolean occupied, attacked, hit;
-    Ship occupyingShip;
+    private Player owningPlayer;
+    private int x, y;
+    private boolean occupied, attacked, hit;
+    private Ship occupyingShip;
     
     public Cell(Player owningPlayer, int x, int y) {
         this.owningPlayer = owningPlayer;
@@ -129,7 +127,7 @@ public class Cell {
                 if(occupyingShip.isSunk()) {
                     cellStatus = Cell.ATTACK_SUNK;
                 }
-                if(!occupyingShip.isSunk()) {
+                if (!occupyingShip.isSunk()) {
                     cellStatus = Cell.ATTACK_HIT;
                 }
             }
@@ -147,5 +145,13 @@ public class Cell {
      */
     public boolean wasAttacked() {
         return attacked;
+    }
+    
+    /**
+     * is this cell occupied
+     * @return Returns true if this cell is occupied, false otherwise.
+     */
+    public boolean isOccupied(){
+        return occupied;
     }
 }
