@@ -5,7 +5,6 @@
  */
 package View;
 
-import Controller.PlayerDisplay;
 import Model.Game;
 import Model.Player;
 import Model.Ship;
@@ -43,7 +42,7 @@ public class ShipListPanel extends JPanel {
         allShipLabels = new JLabel[ships.length];
         for (int i = 0; i < allShipLabels.length; ++i) {
             JLabel shipLabel = allShipLabels[i] = new JLabel(ships[i].getName());
-            shipLabel.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+            shipLabel.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
             shipListPanel.add(shipLabel);
         }
 
@@ -64,10 +63,10 @@ public class ShipListPanel extends JPanel {
 
         Status = new JLabel("\n");
 
-        Status.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+        Status.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
         Status.setHorizontalAlignment(SwingConstants.CENTER);
 
-        contentPanel.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+        contentPanel.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(shipListPanel, BorderLayout.NORTH);
         contentPanel.add(gridPanel, BorderLayout.CENTER);

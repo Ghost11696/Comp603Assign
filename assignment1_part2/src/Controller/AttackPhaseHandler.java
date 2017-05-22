@@ -5,9 +5,10 @@
  */
 package Controller;
 
+import View.PlayerDisplay;
 import Model.*;
 import View.GameWindow;
-import View.UIBattleApp;
+import View.StartWindow;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.TimerTask;
@@ -73,11 +74,11 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
     private Color colourAttackResult(int attackResult) {
         switch (attackResult) {
             case Cell.ATTACK_HIT:
-                return UIBattleApp.COLOUR_HIT;
+                return StartWindow.COLOUR_HIT;
             case Cell.ATTACK_MISS:
-                return UIBattleApp.COLOUR_MISS;
+                return StartWindow.COLOUR_MISS;
             case Cell.ATTACK_SUNK:
-                return UIBattleApp.COLOUR_SUNK;
+                return StartWindow.COLOUR_SUNK;
             default:
                 return SystemColor.windowText;
         }
@@ -122,17 +123,6 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
 
     private void setHumanTurnDisplayTask() {
         this.clearHumanTurnDisplayTask();
-
-        final GameWindow gameWindow = this.myGameWindow;
-        final String humanName = this.myGameWindow.getHumanPlayer().getName();
-        this.myHumanTurnDisplayTask = new SingleTask(1000) {
-            public void runSingleTask() {
-                if (gameWindow.isComplete()) {
-                    return;
-                }
-                gameWindow.getComputerDisplay().status(humanName + ", choose a cell to attack.");
-            }
-        };
     }
 
     private void startComputerTurn() {
@@ -140,14 +130,7 @@ public class AttackPhaseHandler implements PlayerDisplayListener {
         this.myGameWindow.getEnemyDisplayFor(computerPlayer).status(computerPlayer.getName() + " is thinking...");
 
         final AttackPhaseHandler attackPhaseHandler = this;
-        new SingleTask(UIBattleApp.COMPUTER_THINK_TIME) {
-            public void runSingleTask() {
-                if (attackPhaseHandler.myGameWindow.isComplete()) {
-                    return;
-                }
-                attackPhaseHandler.computerTakeTurn();
-            }
-        };
+         attackPhaseHandler.computerTakeTurn();
     }
 
     private void startCurrentTurn() {

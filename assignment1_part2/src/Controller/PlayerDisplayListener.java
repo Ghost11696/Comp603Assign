@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import View.PlayerDisplay;
 import java.awt.event.MouseEvent;
 
 /**

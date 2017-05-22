@@ -20,10 +20,6 @@ import javax.swing.*;
  */
 public class GameWindow extends JFrame {
 
-    // Public static constants
-    public static final int COMPUTER_INDEX = 1;
-    public static final int HUMAN_INDEX = 0;
-
     // Private fields
     private PlayerDisplay[] allPlayerDisplays;
     private JFrame form;
@@ -31,13 +27,11 @@ public class GameWindow extends JFrame {
     private DeploymentHandler myDeployer;
     private Game myGame;
     private boolean isComplete = false;
-    private UIBattleApp uibattleApp;
 
-    // Constructors
-    public GameWindow(UIBattleApp uibattleApp) {
 
-        this.uibattleApp = uibattleApp;
-        this.myGame = new Game(uibattleApp.playerName, "Computer");
+    public GameWindow(StartWindow startWindow) {
+
+        this.myGame = new Game(startWindow.playerName, "Computer");
         this.myDeployer = new DeploymentHandler(this);
         this.myAttackPhaseHandler = new AttackPhaseHandler(this);
 
@@ -46,7 +40,7 @@ public class GameWindow extends JFrame {
     }
 
     public PlayerDisplay getComputerDisplay() {
-        return allPlayerDisplays[GameWindow.COMPUTER_INDEX];
+        return allPlayerDisplays[StartWindow.COMPUTER_INDEX];
     }
 
     public Player getComputerPlayer() {
@@ -66,7 +60,7 @@ public class GameWindow extends JFrame {
     }
 
     public PlayerDisplay getHumanDisplay() {
-        return allPlayerDisplays[GameWindow.HUMAN_INDEX];
+        return allPlayerDisplays[StartWindow.HUMAN_INDEX];
     }
 
     public Player getHumanPlayer() {
@@ -90,8 +84,8 @@ public class GameWindow extends JFrame {
         PlayerDisplay humanDisplay, computerDisplay;
         allPlayerDisplays = new PlayerDisplay[2];
 
-        allPlayerDisplays[GameWindow.HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, this.getHumanPlayer());
-        allPlayerDisplays[GameWindow.COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, this.getComputerPlayer());
+        allPlayerDisplays[StartWindow.HUMAN_INDEX] = humanDisplay = new PlayerDisplay(this, this.getHumanPlayer());
+        allPlayerDisplays[StartWindow.COMPUTER_INDEX] = computerDisplay = new PlayerDisplay(this, this.getComputerPlayer());
 
         displayGridsPanel.setLayout(new GridLayout(1, 2));
         displayGridsPanel.add(humanDisplay.getComponent());
@@ -131,7 +125,7 @@ public class GameWindow extends JFrame {
         });
 
 
-        form = new JFrame(UI.WINDOW_TITLE);
+        form = new JFrame("BattleApp");
 
         form.setLayout(new BorderLayout());
         form.add(displayGridsPanel, BorderLayout.CENTER);

@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package View;
 
+import Controller.PlayerDisplayListener;
 import Model.*;
 import View.GameWindow;
-import View.UIBattleApp;
+import View.StartWindow;
+
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -125,13 +127,13 @@ public class PlayerDisplay implements PlayerDisplayListener {
     private Color colourForState(int displayState) {
         switch (displayState) {
             case Cell.DISPLAY_HIT:
-                return UIBattleApp.COLOUR_HIT;
+                return StartWindow.COLOUR_HIT;
             case Cell.DISPLAY_MISS:
-                return UIBattleApp.COLOUR_MISS;
+                return StartWindow.COLOUR_MISS;
             case Cell.DISPLAY_OCCUPIED:
-                return UIBattleApp.COLOUR_OCCUPIED;
+                return StartWindow.COLOUR_OCCUPIED;
             default:
-                return this.isEnabled ? UIBattleApp.COLOUR_BLANK_ENABLED : UIBattleApp.COLOUR_BLANK_DISABLED;
+                return isEnabled ? StartWindow.COLOUR_BLANK_ENABLED : StartWindow.COLOUR_BLANK_DISABLED;
         }
     }
 
@@ -165,7 +167,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
             this.allShipLabels = new JLabel[ships.length];
             for (int i = 0; i < this.allShipLabels.length; ++i) {
                 JLabel shipLabel = this.allShipLabels[i] = new JLabel(ships[i].getName());
-                shipLabel.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+                shipLabel.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
                 shipListPanel.add(shipLabel);
             }
         
@@ -187,10 +189,10 @@ public class PlayerDisplay implements PlayerDisplayListener {
 
         status = new JLabel("\n");
 
-        status.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+        status.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
         status.setHorizontalAlignment(SwingConstants.CENTER);
 
-        contentPanel.setBorder(new EmptyBorder(UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH, UIBattleApp.BORDER_WIDTH));
+        contentPanel.setBorder(new EmptyBorder(StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH, StartWindow.BORDER_WIDTH));
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(shipListPanel, BorderLayout.NORTH);
         contentPanel.add(gridPanel, BorderLayout.CENTER);
@@ -215,7 +217,7 @@ public class PlayerDisplay implements PlayerDisplayListener {
     private void redrawShipLabels() {
         Ship[] ships = getShips();
         for (int i = 0; i < allShipLabels.length; ++i) {
-            Color drawColour = ships[i].isSunk() ? UIBattleApp.COLOUR_SHIP_SUNK : UIBattleApp.COLOUR_SHIP_NOT_SUNK;
+            Color drawColour = ships[i].isSunk() ? StartWindow.COLOUR_SHIP_SUNK : StartWindow.COLOUR_SHIP_NOT_SUNK;
             allShipLabels[i].setForeground(drawColour);
         }
     }

@@ -5,12 +5,9 @@
  */
 package Controller;
 
-import Model.Cell;
-import Model.Grid;
-import Model.Player;
-import Model.Ship;
-import View.GameWindow;
-import View.UIBattleApp;
+import View.PlayerDisplay;
+import Model.*;
+import View.*;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -58,7 +55,7 @@ public class DeploymentHandler implements PlayerDisplayListener {
 
     // Public methods
     public void drawOverlay() {
-        Color drawColour = isCurrentPositionValid ? UIBattleApp.COLOUR_OCCUPIED : UIBattleApp.COLOUR_INVALID;
+        Color drawColour = isCurrentPositionValid ? StartWindow.COLOUR_OCCUPIED : StartWindow.COLOUR_INVALID;
         PlayerDisplay playerDisplay = myGameWindow.getHumanDisplay();
         for (Cell coveredCell : currentCells) {
             if (coveredCell == null) {
