@@ -16,7 +16,7 @@ public class Game {
      */   
     private Player player1, player2;
     private int turn;
-    private HighScore highscore;
+    private HighScoreDB highscore;
     
     public Game(String player1Name, String player2Name) {
         player1 = new Player(player1Name);
@@ -87,7 +87,7 @@ public class Game {
      * then closes the database
      */
     public void startConnection() {
-        highscore = new HighScore();
+        highscore = new HighScoreDB();
         int playerOneScore = (player1.getScore() - player2.getScore());
         String playerOneName = player1.getName();
         highscore.addHighScoreValues(playerOneName, playerOneScore);

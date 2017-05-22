@@ -7,7 +7,6 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author James-dt
  */
-public class HighScore {
+public class HighScoreDB {
 
     private String url = "jdbc:derby:HighScoreDB;create=true";
     private String dbUser = "player";
@@ -27,7 +26,7 @@ public class HighScore {
     /**
      * 
      */
-    public HighScore() {
+    public HighScoreDB() {
         connectDB();
     }
 
@@ -40,7 +39,7 @@ public class HighScore {
 
             connection = DriverManager.getConnection(url, dbUser, dbPass);
         } catch (SQLException ex) {
-            Logger.getLogger(HighScore.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HighScoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -52,7 +51,7 @@ public class HighScore {
             try {
                 connection.close();
             } catch (SQLException ex) {
-                Logger.getLogger(HighScore.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(HighScoreDB.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -70,8 +69,9 @@ public class HighScore {
             String sqlQuery = "INSERT INTO PLAYER.HIGHSCORE VALUES ('fff', 23234)";//('"+ addNameDB +"', "+ addScoreDB +");";
             statement.executeUpdate(sqlQuery);
         } catch (SQLException ex) {
-            Logger.getLogger(HighScore.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HighScoreDB.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
 }
