@@ -1,5 +1,7 @@
 package Model;
 
+import DataBase.PlayerScore;
+
 /**
  * Game class. Represents one game of battleships. Each Game has
  * two Players. The Game keeps track of whose turn it is, and is
@@ -16,7 +18,7 @@ public class Game {
      */   
     private Player player1, player2;
     private int turn;
-    private HighScore highscore;
+    private PlayerScore highscore;
     
     public Game(String player1Name, String player2Name) {
         player1 = new Player(player1Name);
@@ -87,7 +89,7 @@ public class Game {
      * then closes the database
      */
     public void startConnection() {
-        highscore = new HighScore();
+        highscore = new PlayerScore();
         int playerOneScore = (player1.getScore() - player2.getScore());
         String playerOneName = player1.getName();
         highscore.addHighScoreValues(playerOneName, playerOneScore);
