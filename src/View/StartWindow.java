@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import java.awt.BorderLayout;
@@ -22,10 +17,11 @@ import javax.swing.border.EmptyBorder;
  */
 public class StartWindow implements ActionListener {
     
-        // Public static constants
+    /**
+     *  static variables to be used for colour, boarder width and indexes
+     */
     public static final int COMPUTER_INDEX = 1;
     public static final int HUMAN_INDEX = 0;
-    
     public static final int BORDER_WIDTH = 1;
 
     public static final Color COLOUR_BLANK_DISABLED = Color.LIGHT_GRAY;
@@ -39,11 +35,14 @@ public class StartWindow implements ActionListener {
     public static final Color COLOUR_SUNK = Color.MAGENTA;
     
     public String playerName = "";
-
     private JFrame startFrame;
     private JTextField tbName;
 
 
+    /**
+     * creates a small frame to collect the players name
+     * before the game is created
+     */
     public StartWindow() {
         
 
@@ -79,6 +78,11 @@ public class StartWindow implements ActionListener {
         startFrame.setVisible(true);
     }
 
+    /**
+     * a new game is started after player clicks button
+     * and closes the current frame
+     * @param ae 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
 

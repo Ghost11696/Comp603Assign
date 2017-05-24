@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Controller.*;
@@ -15,7 +10,7 @@ import javax.swing.*;
 
 
 /**
- *
+ *  creates the Jframe
  * @author James-dt
  */
 public class GameWindow extends JFrame {
@@ -39,43 +34,83 @@ public class GameWindow extends JFrame {
         startGUI();
     }
 
+    /**
+     * 
+     * @return the panel display for computer
+     */
     public PlayerDisplay getComputerDisplay() {
         return allPlayerDisplays[StartWindow.COMPUTER_INDEX];
     }
 
+    /**
+     * 
+     * @return player 2
+     */
     public Player getComputerPlayer() {
         return myGame.getPlayer2();
     }
 
+    /**
+     * 
+     * @return the default background for jframe
+     */
     public Color getDefaultBackgroundColour() {
         return form.getBackground();
     }
 
+    /**
+     * displays the players panels
+     * @param player
+     * @return the player display and computer display panel
+     */
     public PlayerDisplay getDisplayFor(Player player) {
         return (allPlayerDisplays[0].getPlayer() == player) ? this.allPlayerDisplays[0] : this.allPlayerDisplays[1];
     }
 
+    /**
+     * displays the enemy panel of the current player
+     * @param player
+     * @return 
+     */
     public PlayerDisplay getEnemyDisplayFor(Player player) {
         return (allPlayerDisplays[0].getPlayer() == player) ? this.allPlayerDisplays[1] : this.allPlayerDisplays[0];
     }
 
+    /**
+     * 
+     * @return player 1s display panel
+     */
     public PlayerDisplay getHumanDisplay() {
         return allPlayerDisplays[StartWindow.HUMAN_INDEX];
     }
 
+    /**
+     * 
+     * @return player 1
+     */
     public Player getHumanPlayer() {
         return myGame.getPlayer1();
     }
 
+    /**
+     * 
+     * @return the current game
+     */
     public Game getGame() {
         return myGame;
     }
 
+    /**
+     * 
+     * @return true if game has finished
+     */
     public boolean isComplete() {
         return isComplete;
     }
 
-    // Public methods
+    /**
+     * contructs JFrame and panels used to make battleApp
+     */
     private void constructGUI() {
         final GameWindow gameWindow = this;
 
@@ -138,14 +173,25 @@ public class GameWindow extends JFrame {
         form.setVisible(true);
     }
 
+    /**
+     * starts the attackphase handler if deployment is complete
+     * @param handler 
+     */
     public void onDeployComplete(DeploymentHandler handler) {
         myAttackPhaseHandler.startGUI();
     }
 
+    /**
+     * player quits the game closes
+     */
     public void onQuit() {
         form.dispose();
     }
 
+    /**
+     * final methods before BattleApp closes
+     * @param winningPlayer 
+     */
     public void onWon(Player winningPlayer) {
         isComplete = true;
         if (!winningPlayer.isComputer()) {
@@ -155,6 +201,11 @@ public class GameWindow extends JFrame {
 
     }
 
+    /**
+     * checks to see if player 1 or player 2 and returns the other player
+     * @param player
+     * @return 
+     */
     public Player otherPlayer(Player player) {
         Player otherPlayerTest;
         if ((otherPlayerTest = myGame.getPlayer1()) != player) {
@@ -163,6 +214,9 @@ public class GameWindow extends JFrame {
         return myGame.getPlayer2();
     }
 
+    /**
+     * starts the GUI for deploying ships
+     */
     public void startGUI() {
         for (PlayerDisplay playerDisplay : this.allPlayerDisplays) {
             playerDisplay.status(playerDisplay.getPlayer().getName());
@@ -171,6 +225,9 @@ public class GameWindow extends JFrame {
         myDeployer.startGUI();
     }
 
+    /**
+     * redraws the panel
+     */
     public void redraw() {
         for (PlayerDisplay playerDisplay : this.allPlayerDisplays) {
             playerDisplay.redraw();

@@ -68,8 +68,8 @@ public class Grid {
      * ship. 
      *
      * @param ship The ship to be placed. Will never be null.
-     * @param topLeftX The x-coordinate for the top-left end of the ship. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
-     * @param topLeftY The y-coordinate for the top-left end of the ship. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
+     * @param topLeftX The x-coordinate for the top-left end of the ship. 
+     * @param topLeftY The y-coordinate for the top-left end of the ship. 
      * @param orientation Will always be only one of two values - Ship.HORIZONTAL or Ship.VERTICAL.
      * @return Returns an array of cells, as described above.
      */    
@@ -109,8 +109,8 @@ public class Grid {
      * method sets the relevant cells of this grid to be marked as occupied by the specified ship. This 
      * method will only be called if the parameters are valid according to the isValidDeployment method.
      * @param ship The ship to be placed. Will never be null.
-     * @param topLeftX The x-coordinate for the top-left end of the ship. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
-     * @param topLeftY The y-coordinate for the top-left end of the ship. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
+     * @param topLeftX The x-coordinate for the top-left end of the ship. 
+     * @param topLeftY The y-coordinate for the top-left end of the ship. 
      * @param orientation Will always be only one of two values - Ship.HORIZONTAL or Ship.VERTICAL.
      * @return Returns true if the ship was successfully deployed, otherwise false.
      */
@@ -138,8 +138,8 @@ public class Grid {
 
     /**
      * Returns the cell in this grid that is at the specified coordinates. 
-     * @param x The x-coordinate of the cell. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
-     * @param y The y-coordinate of the cell. Will always be in the range 0 to Game.GRID_SIZE-1, inclusive.
+     * @param x The x-coordinate of the cell. 
+     * @param y The y-coordinate of the cell. 
      * @return The cell at the specified coordinates.
      */
     public Cell getCell(int x, int y) {
@@ -155,8 +155,6 @@ public class Grid {
     /**
      * Checks whether it is valid to deploy a ship at a particular position and orientation. 
      * It would not be valid if either of the following two criteria are met:
-     *  (a) The ship would overlap another ship on the grid.
-     *  (b) Part of the ship would exceed the boundaries of the grid.
      * @return Returns true if valid, false otherwise.
      */
     public boolean isValidDeployment(Ship ship, int topLeftX, int topLeftY, int orientation) {

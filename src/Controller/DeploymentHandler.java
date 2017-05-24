@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import View.PlayerDisplay;
@@ -13,15 +8,17 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
 /**
- *
+ * class controls the deployment phase of battleships for this iteration 
+ * the deployment is automatic, however methods can be included so that the 
+ * player can add his own ships on mouse click
  * @author James-dt
  */
 public class DeploymentHandler implements PlayerDisplayListener {
-    // Public fields
+
 
     public JButton bnAutoDeploy;
 
-    // Private fields
+
     private Cell[] currentCells = new Cell[0];
     private int currentOrientation = Ship.HORIZONTAL;
     private int currentX = -1;
@@ -30,12 +27,17 @@ public class DeploymentHandler implements PlayerDisplayListener {
     private GameWindow myGameWindow;
     private int nextShipIndex = 0;
 
-    // Constructors
+
     public DeploymentHandler(GameWindow gameWindow) {
         this.myGameWindow = gameWindow;
     }
 
-    // Accessors
+    /**
+     * gets an array of the players ships and gets the current ship using an
+     * index
+     *
+     * @returns the current ship
+     */
     public Ship getCurrentShip() {
         Ship[] ships = getHumanShips();
         if (nextShipIndex >= ships.length) {
@@ -45,15 +47,27 @@ public class DeploymentHandler implements PlayerDisplayListener {
         }
     }
 
+    /**
+     * returns the human players ships
+     *
+     * @return human players ship
+     */
     public Ship[] getHumanShips() {
         return myGameWindow.getHumanPlayer().getShips();
     }
 
+    /**
+     * if the index is greater than the array size it will return true
+     *
+     * @return 
+     */
     public boolean isComplete() {
         return nextShipIndex >= getHumanShips().length;
     }
 
-    // Public methods
+    /**
+     * displays the players panel
+     */
     public void drawOverlay() {
         Color drawColour = isCurrentPositionValid ? StartWindow.COLOUR_OCCUPIED : StartWindow.COLOUR_INVALID;
         PlayerDisplay playerDisplay = myGameWindow.getHumanDisplay();
@@ -65,6 +79,9 @@ public class DeploymentHandler implements PlayerDisplayListener {
         }
     }
 
+    /**
+     * implements the autodeploy method
+     */
     public void onAutoDeploy() {
         while (!isComplete()) {
             autoDeployCurrentShip();
@@ -89,15 +106,17 @@ public class DeploymentHandler implements PlayerDisplayListener {
         redraw();
     }
 
-    public void onSwitchOrientation() {
-        rotateShip();
-    }
-
+    /**
+     * redraws the display
+     */
     public void redraw() {
         myGameWindow.getHumanDisplay().redraw();
         drawOverlay();
     }
 
+    /**
+     * creates the gui for deployment (for this iteration its automatic)
+     */
     public void startGUI() {
         deployComputerShips();
         displayCurrentStatus();
@@ -107,16 +126,24 @@ public class DeploymentHandler implements PlayerDisplayListener {
         myGameWindow.redraw();
     }
 
-    // Private methods
+    /**
+     * auto deploys ship
+     */
     private void autoDeployCurrentShip() {
         myGameWindow.getHumanPlayer().getGrid().autoDeploy(this.getCurrentShip());
         ++nextShipIndex;
     }
 
+    /**
+     * clears the position
+     */
     private void clearDeploymentPosition() {
         setDeploymentPosition(-1, -1);
     }
 
+    /**
+     * resets the display gui 
+     */
     private void complete() {
         bnAutoDeploy.setEnabled(false);
         myGameWindow.getHumanDisplay().setEnabled(false);
@@ -129,6 +156,9 @@ public class DeploymentHandler implements PlayerDisplayListener {
         myGameWindow.onDeployComplete(this);
     }
 
+    /**
+     * deploys the computer ships
+     */
     private void deployComputerShips() {
         Player computerPlayer = myGameWindow.getComputerPlayer();
         for (Ship ship : computerPlayer.getShips()) {
@@ -137,6 +167,9 @@ public class DeploymentHandler implements PlayerDisplayListener {
         myGameWindow.getComputerDisplay().status("The computer has deployed its ships.");
     }
 
+    /**
+     * for iteration 2 - player can manually deploy ship
+     */
     private void displayCurrentStatus() {
 
         Ship currentShip = getCurrentShip();
@@ -147,6 +180,9 @@ public class DeploymentHandler implements PlayerDisplayListener {
         }
     }
 
+    /**
+     * checks that position is valid
+     */
     private void revalidateCurrentPosition() {
         if (currentX == -1 || currentY == -1 || isComplete()) {
             currentCells = new Cell[0];
@@ -162,12 +198,12 @@ public class DeploymentHandler implements PlayerDisplayListener {
         }
     }
 
-    private void rotateShip() {
-        currentOrientation = (currentOrientation == Ship.HORIZONTAL) ? Ship.VERTICAL : Ship.HORIZONTAL;
-        revalidateCurrentPosition();
-        redraw();
-    }
 
+    /**
+     * sets the ship at the deployment position
+     * @param x
+     * @param y 
+     */
     private void setDeploymentPosition(int x, int y) {
         if (currentX == x && currentY == y) {
             return;

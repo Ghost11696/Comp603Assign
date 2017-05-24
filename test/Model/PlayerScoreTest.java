@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,12 +23,21 @@ import static org.junit.Assert.*;
  *
  * @author James-dt
  */
-public class HighScoreTest {
+public class PlayerScoreTest {
 
-    HighScoreDB conn = new HighScoreDB();
+    private Connection conn;
+    private String url = "jdbc:derby://localhost:1527/PLAYER;create=true";
+    private final String userName = "quan";
+    private final String password = "quan";
+    private static final String tableName = "PLAYERSCORE";
 
-    public HighScoreTest() {
 
+    public PlayerScoreTest() {
+        try {
+            conn = DriverManager.getConnection(url, userName, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(PlayerScoreTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @BeforeClass
@@ -46,20 +56,6 @@ public class HighScoreTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of connectDB method, of class HighScoreDB.
-     */
-    @Test
-    public void testConnectDB() {
-        conn.connectDB();
-        Assert.assertNotNull(conn.connection);
-        conn.closeConn();
-        try {
-            Assert.assertTrue(conn.connection.isClosed());
-        } catch (SQLException ex) {
-            fail("SQL Exception");
-        }
-    }
 
     /**
      * Test of addHighScoreValues method, of class HighScoreDB.
@@ -68,15 +64,17 @@ public class HighScoreTest {
     public void testAddHighScoreValues() {
         int currentRowCount = rowCount();
         try {
-            Statement statement = conn.connection.createStatement();
+
+            Statement statement = conn.createStatement();
             //testing generic name and score
-            String sqlQuery = "INSERT INTO PLAYER.HIGHSCORE VALUES ('fff', 23234)";
-            statement.executeUpdate(sqlQuery);
+            statement.executeUpdate("INSERT INTO " + tableName + " VALUES ('fff', 22232)");
+            int newRowCount = rowCount();
+            assertEquals(currentRowCount + 1, newRowCount);
+
         } catch (SQLException ex) {
-            Logger.getLogger(HighScoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-        int newRowCount = rowCount();
-        assertEquals(currentRowCount + 1, newRowCount);
+
     }
 
         /**
@@ -85,20 +83,20 @@ public class HighScoreTest {
      * @return number of facts
      */
     public int rowCount() {
-        String table = "HIGHSCORE";
+
         ResultSet rs;
         int rowCount = 0;
         
         try {
-            Statement statement = conn.connection.createStatement();
-            String sqlQuery = "SELECT COUNT(*) FROM " + table;
+            Statement statement = conn.createStatement();
+            String sqlQuery = "SELECT COUNT(*) FROM " + tableName;
 
             rs = statement.executeQuery(sqlQuery);
 
             rs.next();
             rowCount = rs.getInt(1);
         } catch (SQLException ex) {
-            Logger.getLogger(HighScoreDB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PlayerScoreTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return rowCount;

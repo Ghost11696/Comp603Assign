@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Model.Game;
@@ -33,6 +28,9 @@ public class ShipListPanel extends JPanel {
         constructGUI();
     }
 
+    /**
+     * contructs the panel GUI with the grid 
+     */
     private void constructGUI() {
         JPanel shipListPanel = new JPanel();
 
@@ -74,6 +72,10 @@ public class ShipListPanel extends JPanel {
 
     }
     
+    /**
+     * 
+     * @return ship labels
+     */
     public JLabel[] getAllShipLabels(){
         return allShipLabels;
     }

@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Controller.PlayerDisplayListener;
 import Model.*;
-import View.GameWindow;
-import View.StartWindow;
-
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,7 +13,7 @@ import javax.swing.border.EmptyBorder;
  * @author James-dt
  */
 public class PlayerDisplay implements PlayerDisplayListener {
-    // Private methods
+
 
     private JButton[][] allButtons;
     private JLabel[] allShipLabels;
@@ -32,6 +23,8 @@ public class PlayerDisplay implements PlayerDisplayListener {
     private PlayerDisplayListener myListener = null;
     private GameWindow myGameWindow;
     private Player myPlayer;
+    
+    
 
     public PlayerDisplay(GameWindow gameWindow, Player player) {
         this.myGameWindow = gameWindow;
@@ -39,11 +32,18 @@ public class PlayerDisplay implements PlayerDisplayListener {
         this.constructGUI();
     }
 
-    // Accessors
+    /**
+     * 
+     * @return the JPanel contentPanel
+     */
     public JPanel getComponent() {
         return contentPanel;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public boolean getEnabled() {
         return isEnabled;
     }

@@ -3,7 +3,7 @@ package Model;
 import View.StartWindow;
 
 /**
- *
+ * main application to run BattleApp
  * @author James-dt
  */
 public class BattleApp {

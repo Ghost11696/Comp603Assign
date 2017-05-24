@@ -1,8 +1,7 @@
 package Model;
 
 /**
- * Ship class. Note - this class is abstract. Contains the fields and methods 
- * that are common to all types of Ship. A Ship has a name and a length. It 
+ * Ship class. A Ship has a name and a length. It 
  * also counts how many times it has been hit so that it can determine whether
  * it has been sunk or not.
  */
@@ -22,10 +21,12 @@ public abstract class Ship {
     public Ship(String name, int length) {
         shipName = name;
         shipLength = length;
-        int hits = 0;
+        hits = 0;
     }
     
-    /** @return The name of this ship. */
+    /**
+     * @return The name of this ship.
+     */
     public String getName() {
         return shipName;
     }

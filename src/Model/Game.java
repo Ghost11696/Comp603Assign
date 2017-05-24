@@ -1,5 +1,7 @@
 package Model;
 
+import DataBase.PlayerScore;
+
 /**
  * Game class. Represents one game of battleships. Each Game has
  * two Players. The Game keeps track of whose turn it is, and is
@@ -16,7 +18,7 @@ public class Game {
      */   
     private Player player1, player2;
     private int turn;
-    private HighScoreDB highscore;
+    private PlayerScore highscore;
     
     public Game(String player1Name, String player2Name) {
         player1 = new Player(player1Name);
@@ -62,9 +64,7 @@ public class Game {
 
     /**
      * Returns the player whose turn it is currently. This method will
-     * never be called if the whoWon method returns a winner.
-     * Note that this method should not change whose turn it currently is,
-     * that should be done in the nextTurn method.
+     * never be called if the whoWon method returns a winner
      * @return The player whose turn it is currently.
      */
     public Player whoseTurn() {
@@ -82,12 +82,12 @@ public class Game {
     }
 
     /**
-     * opens the highscore database
+     * opens the PLAYERSCORE database
      * adds the players name and score to the database
      * then closes the database
      */
     public void startConnection() {
-        highscore = new HighScoreDB();
+        highscore = new PlayerScore();
         int playerOneScore = (player1.getScore() - player2.getScore());
         String playerOneName = player1.getName();
         highscore.addHighScoreValues(playerOneName, playerOneScore);

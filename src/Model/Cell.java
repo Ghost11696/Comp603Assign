@@ -35,11 +35,11 @@ public class Cell {
         this.owningPlayer = owningPlayer;
         
         if(x >= 0 && x <= Game.GRID_SIZE-1) {
-            this.x = x;     //Sets the value of the variable x as entered in the x parameter, as long as it is between 0 and Game.GRID_SIZE-1, inclusive.
+            this.x = x;     
         }
         
         if(x >= 0 && x <= Game.GRID_SIZE-1) {
-            this.y = y;     //Sets the value of the variable y as entered in the y parameter, as long as it is between 0 and Game.GRID_SIZE-1, inclusive.
+            this.y = y;    
         }
         
         occupied = false;
@@ -67,22 +67,30 @@ public class Cell {
         return state;
     }
 
-    /** @return The player who this cell belongs to. */
+    /**
+     * @return The player who this cell belongs to.
+     */
     public Player getPlayer() {
         return owningPlayer;
     }
 
-    /** @return The ship that occupies this cell. */
+    /**
+     * @return The ship that occupies this cell.
+     */
     public Ship getOccupyingShip() {
         return occupyingShip;
     }
 
-    /** @return The x-coordinate of this cell. */
+    /**
+     * @return The x-coordinate of this cell.
+     */
     public int getX() {
         return x;
     }
 
-    /** @return The y-coordinate of this cell. */
+    /**
+     * @return The y-coordinate of this cell.
+     */
     public int getY() {
         return y;
     }

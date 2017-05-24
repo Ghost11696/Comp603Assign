@@ -5,18 +5,7 @@ package Model;
  * can determine whether he or she has been defeated or not.
  */
 public class Player {
-    /**
-     * Player constructor. Initialises the following three things:
-     *
-     *  1.  Sets the player's name as specified by the name parameter.
-     *
-     *  2.  Initialises the player with their five ships: 
-     *      an AircraftCarrier, a Battleship, a Submarine, a Destroyer and a PatrolBoat.
-     *
-     *  3.  Creates the Grid for this player.
-     *
-     * @param name The name to be used for this player.
-     */
+
     private String playerName;
     private Ship[] ships;
     private Grid grid;
@@ -27,13 +16,17 @@ public class Player {
         ships = new Ship[]{new AircraftCarrier(), new Battleship(), new Submarine(), new Destroyer(), new PatrolBoat()};
         grid = new Grid(this);
     }
-    
-    /** @return This player's grid. */
+
+    /**
+     * @return This player's grid.
+     */
     public Grid getGrid() {
         return grid;
     }
 
-    /** @return This player's name. */
+    /**
+     * @return This player's name.
+     */
     public String getName() {
         return playerName;
     }
